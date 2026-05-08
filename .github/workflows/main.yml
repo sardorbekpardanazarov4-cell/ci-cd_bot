@@ -1,21 +1,18 @@
-name: Bot CI/CD Pipeline
+name: Bot Deploy Test
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch: # Bu tugma orqali qo'lda ishga tushirish imkonini beradi
 
 jobs:
-  deploy:
+  test_ssh:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH orqali serverga ulanish va kodni yangilash
+      - name: Serverga ulanish testi
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: |
-            cd ~/my-bot
-            git pull origin main
-            pkill -f bot.py || true
-            nohup python3 bot.py > bot.log 2>&1 &
+          script: echo "Ulanish muvaffaqiyatli! Serverda ishlayapman."
