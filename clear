@@ -1,0 +1,8 @@
+def test_simple_check():
+    # Oddiy mantiqiy test
+    assert 1 + 1 == 2
+
+def test_token_exists():
+    # Bu test shunchaki o'rnak uchun
+    import os
+    print("Test yakunlandi")
