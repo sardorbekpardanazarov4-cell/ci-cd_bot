@@ -3,16 +3,20 @@ name: Bot Deploy Test
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Bu tugma orqali qo'lda ishga tushirish imkonini beradi
 
 jobs:
-  test_ssh:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Serverga ulanish testi
-        uses: appleboy/ssh-action@master
+      - name: SSH orqali ulanish
+        uses: appleboy/ssh-action@v1.0.3  # Versiyani yangiladim
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: echo "Ulanish muvaffaqiyatli! Serverda ishlayapman."
+          script: |
+            echo "Men serverga kirdim!"
+            cd ~/my-bot
+            git pull origin main
+            pkill -f bot.py || true
+            nohup python3 bot.py > bot.log 2>&1 &
